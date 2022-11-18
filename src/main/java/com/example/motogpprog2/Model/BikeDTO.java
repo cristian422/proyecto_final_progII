@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class BikeDTO {
-    private Bike bike;
+    private String numberbike;
     private int position;
 }

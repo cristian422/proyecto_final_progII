@@ -14,26 +14,24 @@ import java.util.List;
 public class BikeService {
     private ListDE bikes;
 
+    /**
+     * public List<Bike> getList(){
+     *         return bikes.getList();
+     *     }
+     *     public String addBike(Bike bike){
+     *         bikes.addDE(bike);
+     *         return "se agrego";
+     *     }
+     *     public String delet(B){
+     *         return bikes.deletByPosition(i);
+     *     }
+     *     public String update(BikeDTO bikeDTO){
+     *         return  bikes.updateByPosition(bikeDTO);
+     *     }
+     * @return
+     */
 
-    public BikeService(){
-        bikes=new ListDE();
-        bikes.addDE(new Bike("004","negro",true));
-        bikes.addDE(new Bike("005","morado",false));
 
 
-    }
-    public List<Bike> getList(){
 
-        return bikes.getList();
-    }
-    public String addBike(Bike bike){
-        bikes.addDE(bike);
-        return "se agrego";
-    }
-    public String delet(int i){
-       return bikes.deletByPosition(i);
-    }
-    public String update(BikeDTO bikeDTO){
-        return  bikes.updateByPosition(bikeDTO);
-    }
 }

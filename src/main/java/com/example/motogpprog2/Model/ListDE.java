@@ -18,7 +18,7 @@ public class ListDE {
         //creamos un ayudante de tipo NodeDE
         //igualamos el temp a la head
         NodeDE temp = head;
-        //creamos una lista que va a guardar objetos de tipo kid
+        //creamos una lista que va a guardar objetos de tipo bike
         List<Bike> list = new ArrayList<>();
         //verificamos que la cabeza si contenga algo
         // ya que si es null no se hace nada
@@ -77,37 +77,27 @@ public class ListDE {
                 }
             temp=temp.getNext();//el temporal pasa a ser su siguiente
             contador=contador+1;//contador aumenta en uno
-
+  
         }
         size--;//contrario al size++ en este caso el tamaño se reduce uno
         return "eliminado";
     }
     //metodo agregar por posicion
     // actualizar
-    public String updateByPosition(BikeDTO bikeDTO)  {//de entrada se el manda un objeto de tipo bikedto
+    public String updateByPosition(BikePosition bikePosition)  {//de entrada se el manda un objeto de tipo bikedto
         NodeDE temp=this.head;//creamos un temporal de nodeDE
         int contador=1;//iniciamos un contador en uno
-        //creamos un kid de los datos del kidDTO
-        Bike newbike = new Bike(bikeDTO.getBike().getNumberBike(), bikeDTO.getBike().getColor(),bikeDTO.getBike().isState());
 
-        if (bikeDTO.getPosition() == 1) {//si la posicion del DTO es igual a 1 se ingresa de primero
+        Bike newbike = bikePosition.getBike();
+
+        if (bikePosition.getPosition() == 1) {//si la posicion del DTO es igual a 1 se ingresa de primero
+            //igualamos
             temp.getData().setNumberBike(newbike.getNumberBike());
             temp.getData().setColor(newbike.getColor());
             temp.getData().setState(newbike.isState());
         }
-        while (contador < bikeDTO.getPosition()) {//mientras el contador sea menor a la posicion ingresada
-            //hace que se quede en una posicion antes
 
-            if (contador == bikeDTO.getPosition() ) {//contador igual a la posicion menos uno verifica que si este en una posicion antes
-                temp.getData().setNumberBike(newbike.getNumberBike());
-                temp.getData().setColor(newbike.getColor());
-                temp.getData().setState(newbike.isState());
-            }
-            temp = temp.getNext();//el temporal pasa a ser el siguiente
-            contador = contador + 1;//contador aumenta en uno
 
-        }
-        size++;//sumamos uno al tamaño
         return "actualizado ";
     }
     //agregar conductor
@@ -138,4 +128,95 @@ public class ListDE {
 
     //no esta la clase piloto
     //donde se programa la creacion de una carrera
+
+    public void addToStart(Bike bike){
+        //guardamos la bike
+        NodeDE newNode=new NodeDE(bike);
+        //verificamos que la cabeza no este vacia
+        // ya que en ese caso el nuevo ya llegaria a ser el primero
+        if (this.head==null){
+            //guardamos al nuevo nodoDE en la cabeza
+            head=newNode;
+        }else {
+            //primero conectamos la cabeza con el siguiente
+            newNode.setNext(this.head);
+            //aseguramos que el nuevo tenga su previus
+            newNode.setPrevius(null);
+            //le decimo que el nuevo head va a se el nuevoNodeDE
+            head=newNode;
+        }
+        //sumamos uno al tamaño
+
+
+    }
+    public String deletByPosition(Bike bike){//se el ingresa de entrada la posicion del dato a eliminar
+        //creamos un temporal de tipo NodeDE
+        NodeDE temp=this.head;//igualamos el temporal a la head
+        int contador=1;//iniciamos el contador en uno
+        if (bike.getNumberBike().equals(temp.getData().getNumberBike())){//si el numero de la bike es igual al primero
+            head=temp.getNext();//la cabeza pasa a ser el siguiente del temporal
+            head.setPrevius(null);//el anterior del head queda null
+        }
+        while (temp!=null){//hace que rrecora toda la lista
+            if (bike.getNumberBike().equals(temp.getData().getNumberBike())){
+                temp.setNext(temp.getNext().getNext());//el siguente del temporal pasa a ser siguiente siguiente
+                temp.getNext().getNext().setPrevius(temp);//guardamos en el previo del siguiente siguiente al temporal
+            }
+            temp=temp.getNext();//el temporal pasa a ser su siguiente
+            contador=contador+1;//contador aumenta en uno
+
+        }
+        size--;//contrario al size++ en este caso el tamaño se reduce uno
+        return "eliminado";
+    }
+
+
+    public Bike obtenerbike(String numberbike){//se el ingresa de entrada el numero de la bike que va a delantar
+        //creamos un temporal de tipo NodeDE
+        NodeDE temp=this.head;//igualamos el temporal a la head
+        int contador=1;//iniciamos el contador en uno
+        if (numberbike==head.getData().getNumberBike()){//si la posicion ingresada es la primera
+            return head.getData();//retornamos la bike
+        }
+        while (contador<size){//hace que recorra toda la lista
+            if (temp.getData().getNumberBike().equals(numberbike)){
+                return temp.getData();
+            }
+            temp=temp.getNext();//el temporal pasa a ser su siguiente
+            contador=contador+1;//contador aumenta en uno
+
+        }
+        return temp.getData();
+    }
+
+    public String addByPosition(BikePosition bikePosition)  {
+        NodeDE temp=this.head;//creamos un temporal de nodeDE
+        int contador=1;//iniciamos un contador en uno
+        //creamos un kid de los datos del kidDTO
+        Bike newbike=bikePosition.getBike();
+
+
+        NodeDE newKid = new NodeDE(newbike);//ingresamos el kid en un nodoDE
+        if (bikePosition.getPosition() == 1) {//si la posicion del DTO es igual a 1 se ingresa de primero
+            newKid.setNext(temp);//guardamos al temporal en el set del nuevo nodo
+            newKid.setPrevius(null);//le decimos que su previo es null
+            head = newKid;//la nueva cabeza pasa a ser el nuevokid
+        }
+        while (contador < bikePosition.getPosition()) {//mientras el contador sea menor a la posicion ingresada
+            //hace que se quede en una posicion antes
+
+            if (contador == bikePosition.position - 1) {//contador igual a la posicion menos uno verifica que si este en una posicion antes
+                newKid.setNext(temp.getNext());//gaurdamos en el siguente del nuevo al siguiente del temporal
+                newKid.setPrevius(temp);//gardamos en el anterior del nuevo al temporal
+                temp.setNext(newKid);//guarda al siguiente del temporal al nuevo
+                temp.getNext().setPrevius(newKid);//guardamos al siguiente del temporal su previo el nuevo
+            }
+            temp = temp.getNext();//el temporal pasa a ser el siguiente
+            contador = contador + 1;//contador aumenta en uno
+
+        }
+
+        return "agregado ";
+    }
+
 }

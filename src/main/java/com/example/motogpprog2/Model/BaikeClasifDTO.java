@@ -8,5 +8,8 @@ import lombok.Data;
 @Data
 public class BaikeClasifDTO {
     private Bike bike;
-    private float time;
+    private  int time;
+
+    public BaikeClasifDTO(BaikeClasifDTO baikeClasifDTO) {
+    }
 }
